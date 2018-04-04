@@ -42,7 +42,3 @@ loop do
     puts ""
   end
 end
-
-# trains.each do |train|
-  # puts train.number
-# end
