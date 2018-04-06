@@ -20,6 +20,7 @@ loop do
   puts "Enter 7 to see trains"
   puts "Enter 8 to see stations"
   puts "Enter 9 to take_a_seat"
+  puts "Enter 10 to take a volume"
   puts "Enter 0 to exit"
   input = gets.chomp.to_i
   case input
@@ -43,9 +44,7 @@ loop do
     begin
       puts "Enter name of train"
       name = gets.chomp
-      puts "Enter volume"
-      volume = gets.chomp
-      trains[name] = CargoTrain.new(name, volume)
+      trains[name] = CargoTrain.new(name)
     rescue Exception => e
       puts e.message
       retry
@@ -59,13 +58,13 @@ loop do
       seats = gets.chomp
       passenger_carriage = PassengerCarriage.new(seats)
       trains[name].carriages << passenger_carriage
-      carriages[name] = passenger_carriage
+      carriages[passenger_carriage.name.to_i] = passenger_carriage
     else
       puts "Enter number of volume"
       volume = gets.chomp
       cargo_carriage = CargoCarriage.new(volume)
       trains[name].carriages << cargo_carriage
-      carriages[name] = cargo_carriage
+      carriages[cargo_carriage.name.to_i] = cargo_carriage
     end
   when 5
     puts "Enter name of train"
@@ -104,7 +103,15 @@ loop do
     end
   when 9
     puts "Enter a number of carriage"
-    name = gets.chomp
-    puts carriages.first
+    name = gets.chomp.to_i
+    carriages[name].take_a_seat
+    puts "Number of empty seats is #{carriages[name].empty_seats}"
+  when 10
+    puts "Enter a number of carriage"
+    name = gets.chomp.to_i
+    puts "Enter a volume"
+    volume = gets.chomp.to_i
+    carriages[name].take_a_volume(volume)
+    puts "Empty volume is #{carriages[name].empty_volume}"
   end
 end

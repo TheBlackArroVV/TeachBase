@@ -4,7 +4,7 @@ class PassengerCarriage < Carriage
 
   def initialize(number_of_seats)
     super("passenger")
-    @number_of_seats = number_of_seats
+    @number_of_seats = number_of_seats.to_i
     @taked_seats = 0
   end
 
@@ -13,6 +13,6 @@ class PassengerCarriage < Carriage
   end
 
   def empty_seats
-    self.number_of_seats - self.taked_seats
+    self.number_of_seats.to_i - self.taked_seats.to_i
   end
 end
