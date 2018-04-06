@@ -14,39 +14,37 @@ class Station
     @name = name
     @trains = []
     @@stations << self
-    self.register_instance
+    register_instance
     validate!
   end
 
   def get_train(train)
-    self.trains << train
+    trains << train
   end
 
   def send_train(train)
-    self.trains.delete(train)
+    trains.delete(train)
   end
 
   def trains_by_type(type)
-    self.trains.each do |train|
-      if train.type == type
-        puts train
-      end
+    trains.each do |train|
+      puts train if train.type == type
     end
   end
 
   def valid?
     validate!
-  rescue
+  rescue StandardError
     false
   end
 
   def validate!
-    raise "Name can`t be blank" if name.nil?
-    raise "Name must be atleast 6 symbols" if name.to_s.length < 6
+    raise 'Name can`t be blank' if name.nil?
+    raise 'Name must be atleast 6 symbols' if name.to_s.length < 6
     true
   end
 
-  def trains_move(&block)
+  def trains_move
     @trains.each do |train|
       yield(train)
     end

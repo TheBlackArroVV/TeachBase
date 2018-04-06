@@ -11,18 +11,18 @@ class Carriage
     @name = @@carriage_id
     @@carriage_id += 1
     @type = type
-    self.register_instance
+    register_instance
     validate!
   end
 
   def valid?
     validate!
-  rescue
+  rescue StandardError
     false
   end
 
   def validate!
-    raise "Enter type" if type.nil?
+    raise 'Enter type' if type.nil?
     true
   end
 end

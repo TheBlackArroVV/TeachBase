@@ -3,7 +3,7 @@ class CargoCarriage < Carriage
   attr_accessor :used_volume
 
   def initialize(volume)
-    super("cargo")
+    super('cargo')
     @volume = volume.to_i
     @used_volume = 0
   end
@@ -13,6 +13,6 @@ class CargoCarriage < Carriage
   end
 
   def empty_volume
-    self.volume - self.used_volume
+    volume - self.used_volume
   end
 end

@@ -1,5 +1,5 @@
 class CargoTrain < Train
   def initialize(name)
-    super(name, "cargo")
+    super(name, 'cargo')
   end
 end
