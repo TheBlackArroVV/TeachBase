@@ -5,38 +5,53 @@ module Validation
   end
 
   module ClassMethods
+      def validate(name, type, *options)
+        variable = "@#{name}_#{type}".to_sym
+        validations[variable] = [] if validations[variable].nil?
+        validations[variable] << "@#{name}".to_sym
+        validations[variable] << type
+        validations[variable] << options
+      end
 
-    def validate(name, type, *params)
-      variable = "@#{name}".to_sym
-      puts variable = instance_variable_get(variable)
-      puts name
-      puts variable
-      if type == :presence
-        if variable.nil? || variable == ""
-          raise 'Can`t be blank'
-        end
-      elsif type == :format
-        puts variable
-        if variable !~ params[0]
-          raise 'Not in REG EXP'
-        end
-      elsif type == :type
-        if variable != params[0]
-          raise 'It`s a mistake. Try again.'
-        end
+      def validations
+        @@validations ||= {}
       end
     end
 
-  end
-
   module InstanceMethods
     def validate!
-      self.class.validate :field, :presence
+      self.class.validations.each do |key, value|
+        puts value[0]
+        validation = "#{value[1]}_validation"
+        if !value[2][0].nil?
+          self.send(validation, instance_variable_get(value[0]), value[2][0])
+        else
+          self.send(validation, instance_variable_get(value[0]))
+        end
+      end
+      true
     end
 
     def valid?
       validate!
+    rescue RuntimeError
+      false
     end
   end
 
+
+  def presence_validation(variable)
+    raise 'Can`t be blank' if variable == "" || variable.nil?
+    true
+  end
+
+  def format_validation(variable, format)
+    raise 'Not in REG EXP' if variable !~ format
+    true
+  end
+
+  def type_validation(variable, type)
+    raise 'It`s a mistake. Try again.' if variable.class != type
+    true
+  end
 end
