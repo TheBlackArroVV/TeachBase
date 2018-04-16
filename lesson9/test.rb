@@ -15,7 +15,7 @@ class Test
   # validate :a, :format, /^[a-z]{3}$/
   validate :a, :type, String
 
-  def initialize(value = "")
+  def initialize(value = '')
     @a = value
   end
 end
