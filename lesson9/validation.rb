@@ -13,7 +13,6 @@ module Validation
       validations[variable] << options
     end
 
-
     def validations
       @validations ||= {}
     end
